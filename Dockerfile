@@ -13,7 +13,9 @@ RUN apk add --no-cache \
     nano \
     knock \
     iptables \
-    openssh
+    openssh \
+    npm \
+    docker
 
 # Create user 'ziro' with home directory and password
 RUN useradd -m ziro && \
