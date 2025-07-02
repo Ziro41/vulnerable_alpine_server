@@ -15,6 +15,8 @@ RUN apk add --no-cache \
     iptables \
     openssh \
     npm \
+    openrc \
+    mdevd-openrc \
     docker
 
 # Create user 'ziro' with home directory and password
@@ -55,3 +57,9 @@ SHELL ["/bin/zsh", "-c"]
 # Run cron in foreground
 CMD ["crond", "-f", "-l", "2"]
 
+
+RUN sed -i '/getty/d' /etc/inittab
+
+CMD ["/sbin/init"]
+
+RUN rc-update add sshd default && rc-update add docker default
