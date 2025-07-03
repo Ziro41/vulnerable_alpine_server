@@ -17,6 +17,7 @@ RUN apk add --no-cache \
     npm \
     openrc \
     mdevd-openrc \
+    openssl \
     docker
 
 # Create user 'ziro' with home directory and password
