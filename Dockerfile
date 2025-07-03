@@ -23,6 +23,9 @@ RUN apk add --no-cache \
 RUN useradd -m ziro && \
     echo "ziro:Oracle1010" | chpasswd
 
+RUN useradd -m admin && \
+    echo "admin:admin123" | chpasswd
+
 # Add user to 'wheel' group for sudo privileges
 RUN echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers && \
     addgroup ziro wheel
@@ -42,10 +45,13 @@ COPY startup.sh /
 
 # Deliberately unsafe permission — simulates a vulnerability
 RUN chmod 777 /usr/local/bin/cleanup_temp.py && \
-    chmod +x /usr/local/bin/cleanup_temp.py
+    chmod +x /usr/local/bin/cleanup_temp.py 
 
 # Add cron job to root's crontab
-RUN echo "* * * * * /usr/bin/python3 /usr/local/bin/cleanup_temp.py >> /var/log/cleanup.log 2>&1" >> /etc/crontabs/root
+RUN echo "* * * * * /usr/bin/python3 /usr/local/bin/cleanup_temp.py >> /var/log/cleanup.log 2>&1" >> /etc/crontabs/root 
+RUN chmod 644 /etc/crontabs/root
+
+RUN git clone https://github.com/tfloxolodeiro/seguridad-web.git
 
 # Create log file (also writable for demonstration if desired)
 RUN touch /var/log/cleanup.log
